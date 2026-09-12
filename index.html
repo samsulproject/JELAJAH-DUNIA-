@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ASEAN Explorer</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌏 ASEAN EXPLORER</div>
+    <div class="badge">11 NEGARA</div>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('explore')">🌏 Negara</button>
+    <button onclick="showPage('map')">🗺️ Peta</button>
+    <button onclick="showPage('quiz')">🎯 Quiz</button>
+    <button onclick="showPage('stats')">🏆 Statistik</button>
+</nav>
+
+<main>
+
+    <!-- HOME -->
+    <section id="home" class="page active">
+
+        <div class="hero">
+            <div>
+                <div class="small">ASEAN EDITION</div>
+
+                <h1>
+                    Jelajahi<br>
+                    <span>Asia Tenggara</span>
+                </h1>
+
+                <p>
+                    Kenali negara, bendera, ibu kota,
+                    makanan dan fakta menarik dari
+                    negara-negara ASEAN.
+                </p>
+
+                <button class="main-button"
+                        onclick="showPage('explore')">
+                    Mulai Eksplorasi 🚀
+                </button>
+            </div>
+
+            <div class="big-globe">🌏</div>
+        </div>
+
+        <div class="stats">
+
+            <div>
+                <b id="totalCountries">11</b>
+                <span>Negara</span>
+            </div>
+
+            <div>
+                <b id="homeScore">0</b>
+                <span>Skor</span>
+            </div>
+
+            <div>
+                <b id="homeXP">0</b>
+                <span>XP</span>
+            </div>
+
+            <div>
+                <b id="homeCorrect">0</b>
+                <span>Benar</span>
+            </div>
+
+        </div>
+
+        <h2>🌏 Negara ASEAN</h2>
+
+        <div id="homeCountryList" class="country-grid"></div>
+
+    </section>
+
+
+    <!-- EXPLORE -->
+    <section id="explore" class="page">
+
+        <div class="page-title">
+            <div>
+                <div class="small">EXPLORE</div>
+                <h1>Negara ASEAN</h1>
+            </div>
+
+            <input
+                id="search"
+                type="text"
+                placeholder="🔎 Cari negara..."
+                oninput="searchCountry()">
+        </div>
+
+        <div id="countryList"
+             class="country-grid">
+        </div>
+
+    </section>
+
+
+    <!-- DETAIL -->
+    <section id="detail" class="page">
+
+        <button class="back"
+                onclick="showPage('explore')">
+            ← Kembali
+        </button>
+
+        <div id="detailContent"></div>
+
+    </section>
+
+
+    <!-- MAP -->
+    <section id="map" class="page">
+
+        <div class="small">MAP</div>
+
+        <h1>Peta Asia Tenggara</h1>
+
+        <p class="muted">
+            Klik marker untuk melihat negara.
+        </p>
+
+        <div id="mapContainer"></div>
+
+    </section>
+
+
+    <!-- QUIZ -->
+    <section id="quiz" class="page">
+
+        <div class="page-title">
+
+            <div>
+                <div class="small">CHALLENGE</div>
+                <h1 id="quizTitle">Quiz ASEAN</h1>
+            </div>
+
+            <div class="score">
+                ⭐ <span id="quizScore">0</span>
+            </div>
+
+        </div>
+
+        <div class="quiz-menu">
+
+            <button onclick="startQuiz('country')">
+                🌏 Tebak Negara
+            </button>
+
+            <button onclick="startQuiz('flag')">
+                🏳️ Tebak Bendera
+            </button>
+
+            <button onclick="startQuiz('capital')">
+                🏛️ Tebak Ibu Kota
+            </button>
+
+            <button onclick="startQuiz('food')">
+                🍜 Tebak Makanan
+            </button>
+
+        </div>
+
+        <div id="quizBox"
+             class="quiz-box"
+             style="display:none;">
+
+            <div class="question-number">
+                Pertanyaan
+                <span id="questionNumber">1</span>/10
+            </div>
+
+            <div id="quizImage"
+                 class="quiz-image">
+            </div>
+
+            <h2 id="question">
+                Pilih mode quiz di atas.
+            </h2>
+
+            <div id="answers"
+                 class="answers">
+            </div>
+
+            <button id="nextButton"
+                    class="main-button"
+                    onclick="nextQuestion()"
+                    style="display:none;">
+                Berikutnya →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+    <section id="stats" class="page">
+
+        <div class="small">YOUR PROGRESS</div>
+
+        <h1>Statistik</h1>
+
+        <div class="profile">
+
+            <div class="level">
+                <span>LEVEL</span>
+                <b id="level">1</b>
+            </div>
+
+            <div class="profile-text">
+
+                <h2>ASEAN Explorer</h2>
+
+                <p>
+                    Kumpulkan XP dengan menjawab quiz.
+                </p>
+
+                <div class="xp-bar">
+                    <div id="xpProgress"></div>
+                </div>
+
+                <small>
+                    <span id="xpText">0</span> XP
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div>
+                <b id="statPlayed">0</b>
+                <span>Quiz</span>
+            </div>
+
+            <div>
+                <b id="statCorrect">0</b>
+                <span>Benar</span>
+            </div>
+
+            <div>
+                <b id="statScore">0</b>
+                <span>Skor</span>
+            </div>
+
+            <div>
+                <b id="statStreak">0</b>
+                <span>Streak</span>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
